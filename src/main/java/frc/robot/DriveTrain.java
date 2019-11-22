@@ -26,7 +26,7 @@ public class DriveTrain extends DifferentialDrive {
 	private static DriveTrain instance;
 
 	public int runcount = 0;
-	public static double DRIVEACCEL = 0.04, DRIVEMIN = 0.4;
+	public static double DRIVEACCEL = 0.04, DRIVEMIN = 0.2;
 
 	public static final double TURNACCEL = 0.06;
 	public static final double TANKACCEL = 0.055;
@@ -45,8 +45,8 @@ public class DriveTrain extends DifferentialDrive {
 
 	private CANPIDController frontRPID;
 
-	private CANEncoder encoderL, encoderR;
-	private static final double highGearCPI = 0.06927503103, lowGearCPI = 0.05320322383;
+	public CANEncoder encoderL, encoderR;
+	private final double highGearCPI = 42, lowGearCPI = 1;
 
 	//private PID pidL, pidR;
 	//private Heading heading;
@@ -81,6 +81,7 @@ public class DriveTrain extends DifferentialDrive {
 
 		encoderL = new CANEncoder(frontL);
 		encoderR = new CANEncoder(frontR);
+		
 
 		frontRPID = frontR.getPIDController();
 		//pidL = new PID(0.005, 0, 0, false, true, "velL");
@@ -88,7 +89,8 @@ public class DriveTrain extends DifferentialDrive {
 
 		left.setInverted(false);
 		right.setInverted(false);
-
+		encoderR.setInverted(true);
+		
 		instance = this;
 		shiftUp();
 	}
